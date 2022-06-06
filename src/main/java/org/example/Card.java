@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.Objects;
 
-public class Card {
+public class Card implements Comparable<Card> {
 
     private final CardValue cardValue;
     private final CardSuit cardSuit;
@@ -36,5 +36,10 @@ public class Card {
     @Override
     public String toString() {
         return cardValue.toString() + cardSuit.toString();
+    }
+
+    @Override
+    public int compareTo(Card o) {
+        return Integer.compare(cardValue.getPower(), o.cardValue.getPower());
     }
 }

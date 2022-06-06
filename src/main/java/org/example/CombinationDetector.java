@@ -2,18 +2,16 @@ package org.example;
 
 import java.util.*;
 
-import static org.example.Parser.getCards;
-
 public class CombinationDetector {
 
     private final Set<Card> cardSet;
 
-    public CombinationDetector(String cards) {
-        this.cardSet = getCards(cards);
+    public CombinationDetector(Set<Card> cardSet) {
+        this.cardSet = cardSet;
     }
 
     public Combination getCombination() {
-        Collection<Integer> sequences = sequenceMap().values();
+        Collection<Integer> sequences = sequenceMap(cardSet).values();
         boolean pair = sequences.contains(2);
         boolean twoPairs = pair && sequences.size() == 3;
         boolean threeOfAKind = sequences.contains(3);
@@ -71,7 +69,7 @@ public class CombinationDetector {
         return suits.stream().allMatch(card -> card.getCardSuit() == suits.get(0).getCardSuit());
     }
 
-    private Map<CardValue, Integer> sequenceMap() {
+    public static Map<CardValue, Integer> sequenceMap(Set<Card> cardSet) {
         Map<CardValue, MutableInt> sequenceMap = new HashMap<>();
         Map<CardValue, Integer> resultMap = new HashMap<>();
 

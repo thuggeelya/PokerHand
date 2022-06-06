@@ -34,21 +34,21 @@ public class Parser {
         char value = card.charAt(0);
         char suit = card.charAt(1);
 
-        if (value == 2) {
+        if (value == '2') {
             cardValue = CardValue.TWO;
-        } else if (value == 3) {
+        } else if (value == '3') {
             cardValue = CardValue.THREE;
-        } else if (value == 4) {
+        } else if (value == '4') {
             cardValue = CardValue.FOUR;
-        } else if (value == 5) {
+        } else if (value == '5') {
             cardValue = CardValue.FIVE;
-        } else if (value == 6) {
+        } else if (value == '6') {
             cardValue = CardValue.SIX;
-        } else if (value == 7) {
+        } else if (value == '7') {
             cardValue = CardValue.SEVEN;
-        } else if (value == 8) {
+        } else if (value == '8') {
             cardValue = CardValue.EIGHT;
-        } else if (value == 9) {
+        } else if (value == '9') {
             cardValue = CardValue.NINE;
         } else if (value == 'T') {
             cardValue = CardValue.TEN;
