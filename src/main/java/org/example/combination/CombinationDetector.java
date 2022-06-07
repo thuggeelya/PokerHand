@@ -52,8 +52,9 @@ public class CombinationDetector {
         List<Integer> powers = new ArrayList<>();
         cardSet.forEach(c -> powers.add(c.getPower()));
         Collections.sort(powers);
+        int acePower = CardValue.ACE.getPower();
 
-        if ((Collections.max(powers) == 14) && (powers.get(3) != 13)) {
+        if ((Collections.max(powers) == acePower) && (powers.get(3) != acePower - 1)) {
             powers.set(4, 1);
             Collections.sort(powers);
         }
