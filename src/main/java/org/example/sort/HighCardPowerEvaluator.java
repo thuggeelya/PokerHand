@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Class is used five-card combination power evaluation.
+ * Class is used for five-card combination power evaluation.
  */
 public class HighCardPowerEvaluator extends PokerHandPowerEvaluator {
 
