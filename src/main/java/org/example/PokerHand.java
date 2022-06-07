@@ -31,7 +31,7 @@ public class PokerHand implements Comparable<PokerHand> {
     public int compareTo(PokerHand o) {
         int combinationsResult = compare(o.combination.getPower(), combination.getPower());
 
-        if ((combinationsResult == 0) && (combination != Combination.HIGH_CARD)) {
+        if (combinationsResult == 0) {
             List<Integer> oPowers = new PokerHandEvaluation(o.cardSet, combination).evaluatePowersDescToCompare();
             List<Integer> powers = new PokerHandEvaluation(cardSet, combination).evaluatePowersDescToCompare();
             int oPower, power;

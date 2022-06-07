@@ -23,9 +23,12 @@ public class PokerHandEvaluation {
      * @return Collection of power-numbers according to the hand comparison rules (card by card).
      */
     public List<Integer> evaluatePowersDescToCompare() {
-        if ((combination == HIGH_CARD) || (combination == STRAIGHT) || (combination == FLUSH)
-                || (combination == STRAIGHT_FLUSH) || (combination == ROYAL_FLUSH)) {
+        if ((combination == HIGH_CARD) || (combination == FLUSH) || (combination == ROYAL_FLUSH)) {
             return evaluatePowersByHighCard();
+        }
+
+        if ((combination == STRAIGHT) || (combination == STRAIGHT_FLUSH)) {
+            return evaluatePowersByStraight();
         }
 
         Map<CardValue, Integer> sequenceMap = sequenceMap(cardSet);
@@ -50,7 +53,18 @@ public class PokerHandEvaluation {
             powerValues.add(card.getPower());
         }
 
-        Collections.sort(powerValues);
+        powerValues.sort(Comparator.reverseOrder());
+        return powerValues;
+    }
+
+    private List<Integer> evaluatePowersByStraight() {
+        evaluatePowersByHighCard();
+
+        if ((Collections.max(powerValues) == 14) && !(powerValues.contains(13))) {
+            powerValues.set(powerValues.indexOf(14), 1);
+        }
+
+        powerValues.sort(Comparator.reverseOrder());
         return powerValues;
     }
 
