@@ -22,7 +22,7 @@ public abstract class PokerHandPowerEvaluator {
      */
     public abstract List<Integer> evaluateHandPower(Set<Card> cardSet);
 
-    protected Map<CardValue, Integer> getSequenceMap(Set<Card> cardSet) {
+    protected final Map<CardValue, Integer> getSequenceMap(Set<Card> cardSet) {
         return CombinationDetector.getSequenceMap(cardSet);
     }
 }

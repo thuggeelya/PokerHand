@@ -94,6 +94,21 @@ public class PokerHandEvaluationTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void tooMuchCards() {
+        new PokerHand("2D JH TC AH 4C 9S 9D");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void noSuchCard() {
+        new PokerHand("1C JH TC QC AH");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void noSuchSuit() {
+        new PokerHand("2Z JH TC 4C AH");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void noCards() {
         new PokerHand("Hello, my friend");
     }
