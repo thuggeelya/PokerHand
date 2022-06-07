@@ -13,10 +13,9 @@ public abstract class PokerHandPowerEvaluator {
     /**
      * <p><b>The rules apply when comparing hands with the same combination:</b></p>
      * <ol>1. Five-card, no-combination - are compared by the highest card. If they are equal, then goes deeper comparison.</ol>
-     * <ol>2. Three of a kind, four of a kind - at card value of the cards included in the hand. If they are equal - according to the kicker.</ol>
+     * <ol>2. Pairs, three of a kind, four of a kind - at card value of the cards included in the hand. If they are equal - according to the kicker.</ol>
      * <ol>3. Full House - at card value of threes. If they are equal - by pair rank (power).</ol>
      * <ol>4. Two pairs - seniors are compared. If they are equal, the lower pairs are matched. If both are equal - according to the kicker.</ol>
-     * <ol>5. Pairs - by rank. If they are equal - according to the kicker.</ol>
      *
      * @return A list of numbers which are representing the powers
      * according to the Texas hold 'em hand comparison rules.
