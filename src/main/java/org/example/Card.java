@@ -16,6 +16,10 @@ public class Card implements Comparable<Card> {
         return cardValue;
     }
 
+    public int getPower() {
+        return cardValue.getPower();
+    }
+
     public CardSuit getCardSuit() {
         return cardSuit;
     }

@@ -4,100 +4,106 @@ import java.util.*;
 
 import static java.lang.Integer.compare;
 import static java.util.Collections.max;
+import static java.util.Collections.min;
 import static org.example.Combination.*;
 import static org.example.CombinationDetector.sequenceMap;
 
 public class PokerHandEvaluation {
 
-    private final Set<Card> cardSet1;
-    private final Set<Card> cardSet2;
+    private final Set<Card> cardSet;
     private final Combination combination;
+    private final List<Integer> powerValues = new ArrayList<>(5);
 
-    public PokerHandEvaluation(Set<Card> cardSet1, Set<Card> cardSet2, Combination combination) {
-        this.cardSet1 = cardSet1;
-        this.cardSet2 = cardSet2;
+    public PokerHandEvaluation(Set<Card> cardSet, Combination combination) {
+        this.cardSet = cardSet;
         this.combination = combination;
     }
 
-    public int evaluate() {
+    /**
+     * @return Collection of power-numbers according to the hand comparison rules (card by card).
+     */
+    public List<Integer> evaluatePowersDescToCompare() {
         if ((combination == HIGH_CARD) || (combination == STRAIGHT) || (combination == FLUSH)
                 || (combination == STRAIGHT_FLUSH) || (combination == ROYAL_FLUSH)) {
-            return compare(max(cardSet2).getCardValue().getPower(), max(cardSet1).getCardValue().getPower());
+            return evaluatePowersByHighCard();
         }
 
-        Map<CardValue, Integer> sequenceMap1 = sequenceMap(cardSet1);
-        Map<CardValue, Integer> sequenceMap2 = sequenceMap(cardSet2);
-        CardValue card;
-        CardValue value1;
-        CardValue value2;
-        CardValue kicker1 = CardValue.TWO;
-        CardValue kicker2 = kicker1;
-        int compareValues;
+        Map<CardValue, Integer> sequenceMap = sequenceMap(cardSet);
 
         if (combination == TWO_PAIRS) {
-            Set<CardValue> pairs = new HashSet<>();
-
-            for (CardValue value : sequenceMap1.keySet()) {
-                if (sequenceMap1.get(value) == 2) {
-                    pairs.add(value);
-                } else {
-                    kicker1 = value;
-                }
-            }
-
-            card = max(pairs, Comparator.comparing(CardValue::getPower));
-            pairs.clear();
-
-            for (CardValue value : sequenceMap2.keySet()) {
-                if (sequenceMap2.get(value) == 2) {
-                    pairs.add(value);
-                } else {
-                    kicker2 = value;
-                }
-            }
-
-            compareValues = compare(card.getPower(), max(pairs, Comparator.comparing(CardValue::getPower)).getPower());
-
-            if (compareValues != 0) {
-                return compareValues;
-            } else if (kicker1 != null) {
-                return compare(kicker1.getPower(), kicker2.getPower());
-            } else {
-                return 0;
-            }
+            return evaluatePowersByTwoPairsThenKicker(sequenceMap);
         }
 
         if ((combination == PAIR) || (combination == THREE_OF_A_KIND) || (combination == FOUR_OF_A_KIND)) {
-            Map<String, CardValue> cardAndKickerMap1 = getSequenceCardAndKicker(sequenceMap1, sequenceMap2);
-            Map<String, CardValue> cardAndKickerMap2 = getSequenceCardAndKicker(sequenceMap2, sequenceMap1);
-            kicker1 = cardAndKickerMap1.get("kicker");
-            kicker2 = cardAndKickerMap2.get("kicker");
-            value1 = cardAndKickerMap1.get("card");
-            value2 = cardAndKickerMap2.get("card");
-            compareValues = compare(value1.getPower(), value2.getPower());
-
-            if (compareValues != 0) {
-                return compareValues;
-            } else if (kicker1 != null) {
-                return compare(kicker1.getPower(), kicker2.getPower());
-            } else {
-                return 0;
-            }
+            return evaluatePowersByLayoutThenKicker(sequenceMap);
         }
 
         if (combination == FULL_HOUSE) {
-            compareValues = compareFullHouse(sequenceMap1, sequenceMap2, 3);
+            return evaluatePowersByFullHouse(sequenceMap);
+        }
 
-            // if 3s are equal compare 2s
-            if (compareValues == 0) {
-                return compareFullHouse(sequenceMap1, sequenceMap2, 2);
+        return Collections.emptyList();
+    }
+
+    private List<Integer> evaluatePowersByHighCard() {
+        for (Card card : cardSet) {
+            powerValues.add(card.getPower());
+        }
+
+        Collections.sort(powerValues);
+        return powerValues;
+    }
+
+    private List<Integer> evaluatePowersByTwoPairsThenKicker(Map<CardValue, Integer> sequenceMap) {
+        Set<CardValue> pairValues = new HashSet<>();
+        CardValue kicker = CardValue.TWO;
+
+        for (CardValue value : sequenceMap.keySet()) {
+            if (sequenceMap.get(value) == 2) {
+                pairValues.add(value);
+            } else {
+                kicker = value;
             }
+        }
 
-            return compareValues;
+        powerValues.add(max(pairValues, Comparator.comparing(CardValue::getPower)).getPower());
+        powerValues.add(min(pairValues, Comparator.comparing(CardValue::getPower)).getPower());
+        powerValues.add(kicker.getPower());
+        return powerValues;
+    }
+
+    private List<Integer> evaluatePowersByLayoutThenKicker(Map<CardValue, Integer> sequenceMap) {
+        CardValue kicker = CardValue.TWO;
+
+        for (CardValue value : sequenceMap.keySet()) {
+            if (sequenceMap.get(value) > 1) {
+                powerValues.add(value.getPower());
+            } else {
+                kicker = (value.getPower() > kicker.getPower()) ? value : kicker;
+            }
+        }
+
+        powerValues.add(kicker.getPower());
+        return powerValues;
+    }
+
+    private List<Integer> evaluatePowersByFullHouse(Map<CardValue, Integer> sequenceMap) {
+        powerValues.add(getPowerByFrequency(sequenceMap, 3)); // first compare 3s
+        powerValues.add(getPowerByFrequency(sequenceMap, 2)); // then  compare 2s
+        return powerValues;
+    }
+
+    private int getPowerByFrequency(Map<CardValue, Integer> sequenceMap, int frequency) {
+        for (CardValue value : sequenceMap.keySet()) {
+            if (sequenceMap.get(value) == frequency) {
+                return value.getPower();
+            }
         }
 
         return 0;
     }
+
+
 
     private int compareFullHouse(Map<CardValue, Integer> sequenceMap1, Map<CardValue, Integer> sequenceMap2, int frequency) {
         CardValue value1 = CardValue.TWO;

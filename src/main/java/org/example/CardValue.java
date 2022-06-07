@@ -16,6 +16,6 @@ public enum CardValue {
 
     @Override
     public String toString() {
-        return power + "";
+        return name().charAt(0) + "";
     }
 }

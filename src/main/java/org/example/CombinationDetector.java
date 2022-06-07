@@ -20,7 +20,7 @@ public class CombinationDetector {
         boolean straight = isStraight();
         boolean flush = isFlush();
         boolean straightFlush = straight && flush;
-        boolean royalFlush = straightFlush && cardSet.stream().anyMatch(c -> c.getCardValue().getPower() == 14);
+        boolean royalFlush = straightFlush && cardSet.stream().noneMatch(c -> c.getPower() < 10);
 
         if (fourOfAKind) {
             return Combination.FOUR_OF_A_KIND;
@@ -47,7 +47,7 @@ public class CombinationDetector {
 
     private boolean isStraight() {
         List<Integer> powers = new ArrayList<>();
-        cardSet.forEach(c -> powers.add(c.getCardValue().getPower()));
+        cardSet.forEach(c -> powers.add(c.getPower()));
         Collections.sort(powers);
 
         if ((Collections.max(powers) == 14) && (powers.get(3) != 13)) {

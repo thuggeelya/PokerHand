@@ -1,8 +1,10 @@
 package org.example;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.lang.Integer.compare;
 import static org.example.Parser.getCards;
 
 public class PokerHand implements Comparable<PokerHand> {
@@ -21,20 +23,29 @@ public class PokerHand implements Comparable<PokerHand> {
         this.combination = new CombinationDetector(cardSet).getCombination();
     }
 
-    public Set<Card> getCardSet() {
-        return cardSet;
-    }
-
     public Combination getCombination() {
         return combination;
     }
 
     @Override
     public int compareTo(PokerHand o) {
-        int combinationsResult = Integer.compare(o.combination.getPower(), combination.getPower());
+        int combinationsResult = compare(o.combination.getPower(), combination.getPower());
 
         if ((combinationsResult == 0) && (combination != Combination.HIGH_CARD)) {
-            return new PokerHandEvaluation(o.cardSet, cardSet, combination).evaluate();
+            List<Integer> oPowers = new PokerHandEvaluation(o.cardSet, combination).evaluatePowersDescToCompare();
+            List<Integer> powers = new PokerHandEvaluation(cardSet, combination).evaluatePowersDescToCompare();
+            int oPower, power;
+
+            for (int i = 0; i < powers.size(); i++) {
+                oPower = oPowers.get(i);
+                power = powers.get(i);
+
+                if (oPower != power) {
+                    return compare(oPower, power);
+                }
+            }
+
+            return 0;
         }
 
         return combinationsResult;
