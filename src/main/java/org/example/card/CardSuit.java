@@ -1,4 +1,4 @@
-package org.example;
+package org.example.card;
 
 public enum CardSuit {
     SPADES, HEARTS, DIAMONDS, CLUBS;

@@ -1,4 +1,7 @@
-package org.example;
+package org.example.combination;
+
+import org.example.card.Card;
+import org.example.card.CardValue;
 
 import java.util.*;
 
@@ -11,7 +14,7 @@ public class CombinationDetector {
     }
 
     public Combination getCombination() {
-        Collection<Integer> sequences = sequenceMap(cardSet).values();
+        Collection<Integer> sequences = getSequenceMap(cardSet).values();
         boolean pair = sequences.contains(2);
         boolean twoPairs = pair && sequences.size() == 3;
         boolean threeOfAKind = sequences.contains(3);
@@ -69,7 +72,7 @@ public class CombinationDetector {
         return suits.stream().allMatch(card -> card.getCardSuit() == suits.get(0).getCardSuit());
     }
 
-    public static Map<CardValue, Integer> sequenceMap(Set<Card> cardSet) {
+    public static Map<CardValue, Integer> getSequenceMap(Set<Card> cardSet) {
         Map<CardValue, MutableInt> sequenceMap = new HashMap<>();
         Map<CardValue, Integer> resultMap = new HashMap<>();
 

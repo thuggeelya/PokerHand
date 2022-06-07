@@ -1,4 +1,4 @@
-package org.example;
+package org.example.card;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -10,14 +10,14 @@ public class Parser {
         String[] cardArray = cards.trim().split(" ");
 
         if (cardArray.length != 5) {
-            throw new IllegalArgumentException("Cards number is incorrect");
+            throw new IllegalArgumentException("Cards quantity is incorrect");
         }
 
         Set<Card> cardSet = new HashSet<>();
         Arrays.stream(cardArray).forEach(s -> cardSet.add(getCard(s)));
 
         if (cardSet.size() != 5) {
-            throw new IllegalArgumentException("Cards number is incorrect");
+            throw new IllegalArgumentException("Card duplicates appeared");
         }
 
         return cardSet;

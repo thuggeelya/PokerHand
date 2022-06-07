@@ -1,11 +1,12 @@
 package org.example;
 
+import org.example.hand.PokerHand;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static org.example.Combination.*;
+import static org.example.combination.Combination.*;
 import static org.junit.Assert.assertEquals;
 
 public class PokerHandEvaluationTest {
@@ -13,7 +14,7 @@ public class PokerHandEvaluationTest {
     @Test
     public void sortHands() {
         PokerHand highCard =             new PokerHand("2D 3C 8S JH 4D");
-        PokerHand anotherHighCard =      new PokerHand("2D 3C 8S QH 4D");
+        PokerHand anotherHighCard =      new PokerHand("2D 3C 9S JH 4D");
         PokerHand pair =                 new PokerHand("2D 2C 8S JH 4D");
         PokerHand anotherPair =          new PokerHand("2D 8C 8S JH 4D");
         PokerHand twoPairs =             new PokerHand("2D 2C 8S 8H 4D");

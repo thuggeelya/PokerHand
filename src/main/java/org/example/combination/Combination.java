@@ -1,4 +1,4 @@
-package org.example;
+package org.example.combination;
 
 public enum Combination {
     HIGH_CARD(1), PAIR(2),
