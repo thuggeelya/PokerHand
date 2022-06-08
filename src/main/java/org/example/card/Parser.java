@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.example.card.CardSuit.*;
+import static org.example.card.CardValue.*;
+
 public class Parser {
 
     public static Set<Card> getCards(String cards) {
@@ -35,43 +38,43 @@ public class Parser {
         char suit = card.charAt(1);
 
         if (value == '2') {
-            cardValue = CardValue.TWO;
+            cardValue = TWO;
         } else if (value == '3') {
-            cardValue = CardValue.THREE;
+            cardValue = THREE;
         } else if (value == '4') {
-            cardValue = CardValue.FOUR;
+            cardValue = FOUR;
         } else if (value == '5') {
-            cardValue = CardValue.FIVE;
+            cardValue = FIVE;
         } else if (value == '6') {
-            cardValue = CardValue.SIX;
+            cardValue = SIX;
         } else if (value == '7') {
-            cardValue = CardValue.SEVEN;
+            cardValue = SEVEN;
         } else if (value == '8') {
-            cardValue = CardValue.EIGHT;
+            cardValue = EIGHT;
         } else if (value == '9') {
-            cardValue = CardValue.NINE;
+            cardValue = NINE;
         } else if (value == 'T') {
-            cardValue = CardValue.TEN;
+            cardValue = TEN;
         } else if (value == 'J') {
-            cardValue = CardValue.JACK;
+            cardValue = JACK;
         } else if (value == 'Q') {
-            cardValue = CardValue.QUEEN;
+            cardValue = QUEEN;
         } else if (value == 'K') {
-            cardValue = CardValue.KING;
+            cardValue = KING;
         } else if (value == 'A') {
-            cardValue = CardValue.ACE;
+            cardValue = ACE;
         } else {
             throw new IllegalArgumentException("Incorrect card value");
         }
 
         if (suit == 'S') {
-            cardSuit = CardSuit.SPADES;
+            cardSuit = SPADES;
         } else if (suit == 'H') {
-            cardSuit = CardSuit.HEARTS;
+            cardSuit = HEARTS;
         } else if (suit == 'D') {
-            cardSuit = CardSuit.DIAMONDS;
+            cardSuit = DIAMONDS;
         } else if (suit == 'C') {
-            cardSuit = CardSuit.CLUBS;
+            cardSuit = CLUBS;
         } else {
             throw new IllegalArgumentException("Incorrect card suit");
         }

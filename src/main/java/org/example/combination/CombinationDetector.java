@@ -1,9 +1,12 @@
 package org.example.combination;
 
 import org.example.card.Card;
+import org.example.card.CardSuit;
 import org.example.card.CardValue;
 
 import java.util.*;
+
+import static org.example.combination.Combination.*;
 
 public class CombinationDetector {
 
@@ -26,25 +29,25 @@ public class CombinationDetector {
         boolean royalFlush = straightFlush && cardSet.stream().noneMatch(c -> c.getPower() < 10);
 
         if (fourOfAKind) {
-            return Combination.FOUR_OF_A_KIND;
+            return FOUR_OF_A_KIND;
         } else if (fullHouse) {
-            return Combination.FULL_HOUSE;
+            return FULL_HOUSE;
         } else if (twoPairs) {
-            return Combination.TWO_PAIRS;
+            return TWO_PAIRS;
         } else if (threeOfAKind) {
-            return Combination.THREE_OF_A_KIND;
+            return THREE_OF_A_KIND;
         } else if (pair) {
-            return Combination.PAIR;
+            return PAIR;
         } else if (royalFlush) {
-            return Combination.ROYAL_FLUSH;
+            return ROYAL_FLUSH;
         } else if (straightFlush) {
-            return Combination.STRAIGHT_FLUSH;
+            return STRAIGHT_FLUSH;
         } else if (flush) {
-            return Combination.FLUSH;
+            return FLUSH;
         } else if (straight) {
-            return Combination.STRAIGHT;
+            return STRAIGHT;
         } else {
-            return Combination.HIGH_CARD;
+            return HIGH_CARD;
         }
     }
 
@@ -70,7 +73,8 @@ public class CombinationDetector {
 
     private boolean isFlush() {
         List<Card> suits = new ArrayList<>(cardSet);
-        return suits.stream().allMatch(card -> card.getCardSuit() == suits.get(0).getCardSuit());
+        CardSuit suit = suits.get(0).getCardSuit();
+        return suits.stream().allMatch(card -> card.getCardSuit() == suit);
     }
 
     public static Map<CardValue, Integer> getSequenceMap(Set<Card> cardSet) {
