@@ -32,6 +32,7 @@ public class HandThenKickerPowerEvaluator extends PokerHandPowerEvaluator {
 
         powerValues.add(max(pairValues, Comparator.comparing(CardValue::getPower)).getPower());
 
+        // if two pairs
         if (pairValues.size() != 1) {
             powerValues.add(min(pairValues, Comparator.comparing(CardValue::getPower)).getPower());
         }
