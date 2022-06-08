@@ -10,21 +10,15 @@ import static org.example.combination.Combination.*;
 
 public class CombinationDetector {
 
-    private final Set<Card> cardSet;
-
-    public CombinationDetector(Set<Card> cardSet) {
-        this.cardSet = cardSet;
-    }
-
-    public Combination getCombination() {
+    public static Combination getCombination(Set<Card> cardSet) {
         Collection<Integer> sequences = getSequenceMap(cardSet).values();
         boolean pair = sequences.contains(2);
         boolean twoPairs = pair && sequences.size() == 3;
         boolean threeOfAKind = sequences.contains(3);
         boolean fullHouse = pair && threeOfAKind;
         boolean fourOfAKind = sequences.contains(4);
-        boolean straight = isStraight();
-        boolean flush = isFlush();
+        boolean straight = isStraight(cardSet);
+        boolean flush = isFlush(cardSet);
         boolean straightFlush = straight && flush;
         boolean royalFlush = straightFlush && cardSet.stream().noneMatch(c -> c.getPower() < 10);
 
@@ -51,7 +45,7 @@ public class CombinationDetector {
         }
     }
 
-    private boolean isStraight() {
+    private static boolean isStraight(Set<Card> cardSet) {
         List<Integer> powers = new ArrayList<>();
         cardSet.forEach(c -> powers.add(c.getPower()));
         Collections.sort(powers);
@@ -71,15 +65,15 @@ public class CombinationDetector {
         return true;
     }
 
-    private boolean isFlush() {
+    private static boolean isFlush(Set<Card> cardSet) {
         List<Card> suits = new ArrayList<>(cardSet);
         CardSuit suit = suits.get(0).getCardSuit();
         return suits.stream().allMatch(card -> card.getCardSuit() == suit);
     }
 
     public static Map<CardValue, Integer> getSequenceMap(Set<Card> cardSet) {
-        Map<CardValue, MutableInt> sequenceMap = new HashMap<>();
-        Map<CardValue, Integer> resultMap = new HashMap<>();
+        Map<CardValue, MutableInt> sequenceMap = new EnumMap<>(CardValue.class);
+        Map<CardValue, Integer> resultMap = new EnumMap<>(CardValue.class);
 
         for (Card card : cardSet) {
             CardValue cardValue = card.getCardValue();

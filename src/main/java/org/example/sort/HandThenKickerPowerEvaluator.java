@@ -5,9 +5,6 @@ import org.example.card.CardValue;
 
 import java.util.*;
 
-import static java.util.Collections.max;
-import static java.util.Collections.min;
-
 /**
  * Class is used for non-five-card combination power evaluation if kickers are present.
  */
@@ -30,11 +27,11 @@ public class HandThenKickerPowerEvaluator extends PokerHandPowerEvaluator {
             }
         }
 
-        powerValues.add(max(pairValues, Comparator.comparing(CardValue::getPower)).getPower());
+        powerValues.add(Collections.max(pairValues, Comparator.comparing(CardValue::getPower)).getPower());
 
         // if two pairs
         if (pairValues.size() != 1) {
-            powerValues.add(min(pairValues, Comparator.comparing(CardValue::getPower)).getPower());
+            powerValues.add(Collections.min(pairValues, Comparator.comparing(CardValue::getPower)).getPower());
         }
 
         kickers.sort(Comparator.reverseOrder());

@@ -4,7 +4,7 @@ import org.example.card.Card;
 import org.example.combination.Combination;
 import org.example.sort.*;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +16,7 @@ public class PokerHandEvaluation {
     private final Set<Card> cardSet;
     private final Combination combination;
 
-    private static final Map<Combination, PokerHandPowerEvaluator> HAND_POWER_EVALUATOR_MAP = new HashMap<>();
+    private static final Map<Combination, PokerHandPowerEvaluator> HAND_POWER_EVALUATOR_MAP = new EnumMap<>(Combination.class);
 
     static {
         HAND_POWER_EVALUATOR_MAP.put(HIGH_CARD,       new HighCardPowerEvaluator());

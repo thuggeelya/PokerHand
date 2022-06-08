@@ -1,13 +1,26 @@
 package org.example.card;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.example.card.CardSuit.*;
-import static org.example.card.CardValue.*;
-
 public class Parser {
+
+    private static final EnumMap<CardValue, Character> CARD_VALUE_ENUM_MAP = new EnumMap<>(CardValue.class);
+    private static final EnumMap<CardSuit, Character> CARD_SUIT_ENUM_MAP = new EnumMap<>(CardSuit.class);
+
+    static {
+        for (CardValue c : CardValue.values()) {
+            int power = c.getPower();
+            char chPower = Character.forDigit(power, 10);
+            CARD_VALUE_ENUM_MAP.put(c, (power < 10) ? chPower : c.name().charAt(0));
+        }
+
+        for (CardSuit c : CardSuit.values()) {
+            CARD_SUIT_ENUM_MAP.put(c, c.name().charAt(0));
+        }
+    }
 
     public static Set<Card> getCards(String cards) {
         String[] cardArray = cards.trim().split(" ");
@@ -27,56 +40,19 @@ public class Parser {
     }
 
     private static Card getCard(String card) {
-        CardValue cardValue;
-        CardSuit cardSuit;
+        CardValue cardValue = null;
+        CardSuit cardSuit = null;
 
         if (card.length() != 2) {
             throw new IllegalArgumentException("Incorrect card input");
         }
 
-        char value = card.charAt(0);
-        char suit = card.charAt(1);
-
-        if (value == '2') {
-            cardValue = TWO;
-        } else if (value == '3') {
-            cardValue = THREE;
-        } else if (value == '4') {
-            cardValue = FOUR;
-        } else if (value == '5') {
-            cardValue = FIVE;
-        } else if (value == '6') {
-            cardValue = SIX;
-        } else if (value == '7') {
-            cardValue = SEVEN;
-        } else if (value == '8') {
-            cardValue = EIGHT;
-        } else if (value == '9') {
-            cardValue = NINE;
-        } else if (value == 'T') {
-            cardValue = TEN;
-        } else if (value == 'J') {
-            cardValue = JACK;
-        } else if (value == 'Q') {
-            cardValue = QUEEN;
-        } else if (value == 'K') {
-            cardValue = KING;
-        } else if (value == 'A') {
-            cardValue = ACE;
-        } else {
-            throw new IllegalArgumentException("Incorrect card value");
+        for (CardValue c : CARD_VALUE_ENUM_MAP.keySet()) {
+            cardValue = (card.charAt(0) == CARD_VALUE_ENUM_MAP.get(c)) ? c : cardValue;
         }
 
-        if (suit == 'S') {
-            cardSuit = SPADES;
-        } else if (suit == 'H') {
-            cardSuit = HEARTS;
-        } else if (suit == 'D') {
-            cardSuit = DIAMONDS;
-        } else if (suit == 'C') {
-            cardSuit = CLUBS;
-        } else {
-            throw new IllegalArgumentException("Incorrect card suit");
+        for (CardSuit c : CARD_SUIT_ENUM_MAP.keySet()) {
+            cardSuit = (card.charAt(1) == CARD_SUIT_ENUM_MAP.get(c)) ? c : cardSuit;
         }
 
         return new Card(cardValue, cardSuit);

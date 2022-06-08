@@ -8,6 +8,10 @@ public class Card implements Comparable<Card> {
     private final CardSuit cardSuit;
 
     public Card(CardValue cardValue, CardSuit cardSuit) {
+        if ((cardValue == null) || (cardSuit == null)) {
+            throw new IllegalArgumentException("Incorrect card");
+        }
+
         this.cardValue = cardValue;
         this.cardSuit = cardSuit;
     }

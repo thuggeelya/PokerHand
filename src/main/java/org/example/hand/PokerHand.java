@@ -24,7 +24,7 @@ public class PokerHand implements Comparable<PokerHand> {
 
         this.cards = cards;
         this.cardSet = getCards(cards);
-        this.combination = new CombinationDetector(cardSet).getCombination();
+        this.combination = CombinationDetector.getCombination(cardSet);
     }
 
     public Combination getCombination() {
