@@ -10,6 +10,7 @@ import java.util.Set;
 
 import static java.lang.Integer.compare;
 import static org.example.card.Parser.getCards;
+import static org.example.combination.Combination.getEvaluatorByCombination;
 
 public class PokerHand implements Comparable<PokerHand> {
 
@@ -36,8 +37,8 @@ public class PokerHand implements Comparable<PokerHand> {
         int combinationsComparisonResult = compare(o.combination.getPower(), combination.getPower());
 
         if (combinationsComparisonResult == 0) {
-            List<Integer> oPowers = Combination.getEvaluatorByCombination(combination).evaluateHandPower(o.cardSet);
-            List<Integer> powers = Combination.getEvaluatorByCombination(combination).evaluateHandPower(cardSet);
+            List<Integer> oPowers = getEvaluatorByCombination(combination).evaluateHandPower(o.cardSet);
+            List<Integer> powers = getEvaluatorByCombination(combination).evaluateHandPower(cardSet);
             int oPower, power;
 
             for (int i = 0; i < powers.size(); i++) {
