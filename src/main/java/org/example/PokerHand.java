@@ -1,4 +1,4 @@
-package org.example.hand;
+package org.example;
 
 import org.example.card.Card;
 import org.example.combination.Combination;
@@ -33,11 +33,11 @@ public class PokerHand implements Comparable<PokerHand> {
 
     @Override
     public int compareTo(PokerHand o) {
-        int combinationsResult = compare(o.combination.getPower(), combination.getPower());
+        int combinationsComparisonResult = compare(o.combination.getPower(), combination.getPower());
 
-        if (combinationsResult == 0) {
-            List<Integer> oPowers = new PokerHandEvaluation(o.cardSet, combination).evaluateHandPower();
-            List<Integer> powers = new PokerHandEvaluation(cardSet, combination).evaluateHandPower();
+        if (combinationsComparisonResult == 0) {
+            List<Integer> oPowers = Combination.getEvaluatorByCombination(combination).evaluateHandPower(o.cardSet);
+            List<Integer> powers = Combination.getEvaluatorByCombination(combination).evaluateHandPower(cardSet);
             int oPower, power;
 
             for (int i = 0; i < powers.size(); i++) {
@@ -52,7 +52,7 @@ public class PokerHand implements Comparable<PokerHand> {
             return 0;
         }
 
-        return combinationsResult;
+        return combinationsComparisonResult;
     }
 
     @Override

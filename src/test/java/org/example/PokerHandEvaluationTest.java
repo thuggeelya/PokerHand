@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.hand.PokerHand;
 import org.junit.Test;
 
 import java.util.ArrayList;
